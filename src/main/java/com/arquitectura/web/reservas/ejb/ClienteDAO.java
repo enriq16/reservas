@@ -16,7 +16,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class ClienteDAO {
-    @PersistenceContext(unitName = " ")
+    @PersistenceContext(unitName = "hibernate_jpa_pu")
     private EntityManager em;
 
     public Cliente findById(Integer id){
