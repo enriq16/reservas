@@ -16,11 +16,11 @@ import javax.persistence.Query;
  */
 @Stateless
 public class ClienteDAO {
-    @PersistenceContext(unitName = "hibernate_jpa_pu")
-    private EntityManager em;
+    @PersistenceContext(unitName = "hibernate_jpa_pu_reservas")
+    private EntityManager en;
 
     public Cliente findById(Integer id){
-        Cliente c = em.find(Cliente.class, id);
+        Cliente c = en.find(Cliente.class, id);
         if(c == null){
             throw new EntityNotFoundException("No existe Cliente con ID: "+id);
         }
@@ -42,7 +42,7 @@ public class ClienteDAO {
         EntityTransaction tr = em.getTransaction();
         tr.begin();
         
-        c.setID(cliente.getID());    
+        c.setId(cliente.getId());    
         c.setCedula(cliente.getCedula());    
         c.setNombre(cliente.getNombre());
         c.setApellido(cliente.getApellido());
