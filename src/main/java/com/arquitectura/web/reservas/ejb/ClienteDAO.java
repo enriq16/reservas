@@ -28,31 +28,27 @@ public class ClienteDAO {
     }
 
     public void agregar(Cliente cliente){
-        EntityTransaction tr = em.getTransaction();
-        tr.begin();
-        em.persist(cliente);
-        tr.commit();
         
+        en.persist(cliente);
+               
         System.out.println("Cliente: "+cliente.toString());            
     }
     
     public void update(Cliente cliente){
-        Cliente c = em.find(Cliente.class, cliente.getId());
+        Cliente c = en.find(Cliente.class, cliente.getId());
         
-        EntityTransaction tr = em.getTransaction();
-        tr.begin();
         
         c.setId(cliente.getId());    
         c.setCedula(cliente.getCedula());    
         c.setNombre(cliente.getNombre());
         c.setApellido(cliente.getApellido());
         
-        
-        tr.commit();                
+        en.persist(c);
+                      
     }
 
     public List<Cliente> listar(){
-        Query q = em.createQuery("select c from Cliente c");
+        Query q = en.createQuery("select c from Cliente c");
         return (List<Cliente>) q.getResultList();
     }
 }
