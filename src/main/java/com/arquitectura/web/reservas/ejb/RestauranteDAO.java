@@ -30,7 +30,25 @@ public class RestauranteDAO {
         return r;
     }
     
+    public void crearRest(Restaurante r){
+        em.getTransaction().begin();
+        em.persist(r);
+        em.getTransaction().commit();
+    }
     
+    public void updateRest(Restaurante r){
+        Restaurante rest = findById(r.getIdRestaurante());
+        em.getTransaction().begin();
+        em.persist(rest);
+        em.getTransaction().commit();
+    }
+    
+    public void deleteRest(Restaurante r){
+        Restaurante rest = findById(r.getIdRestaurante());
+        em.getTransaction().begin();
+        em.remove(rest);
+        em.getTransaction().commit();
+    }
     
     public List<Restaurante> getRestaurantes(){
         Query q = em.createQuery("select r from Restaurante r");
