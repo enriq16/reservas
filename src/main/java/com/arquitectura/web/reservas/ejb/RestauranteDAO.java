@@ -19,7 +19,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class RestauranteDAO {
-    @PersistenceContext(unitName = "hibernate_jpa_pu")
+    @PersistenceContext(unitName = "hibernate_jpa_pu_reservas")
     private EntityManager em;
     
     public Restaurante findById(Integer idRestaurante){
@@ -30,24 +30,20 @@ public class RestauranteDAO {
         return r;
     }
     
-    public void crearRest(Restaurante r){
-        em.getTransaction().begin();
-        em.persist(r);
-        em.getTransaction().commit();
+    public void crearRest(Restaurante r){        
+        em.persist(r);        
     }
     
     public void updateRest(Restaurante r){
-        Restaurante rest = findById(r.getIdRestaurante());
-        em.getTransaction().begin();
-        em.persist(rest);
-        em.getTransaction().commit();
+        Restaurante rest = findById(r.getIdRestaurante());  
+        rest.setNombre(r.getNombre());
+        rest.setDireccion(r.getDireccion());
+        em.persist(rest);        
     }
     
     public void deleteRest(Restaurante r){
-        Restaurante rest = findById(r.getIdRestaurante());
-        em.getTransaction().begin();
-        em.remove(rest);
-        em.getTransaction().commit();
+        Restaurante rest = findById(r.getIdRestaurante());        
+        em.remove(rest); 
     }
     
     public List<Restaurante> getRestaurantes(){
