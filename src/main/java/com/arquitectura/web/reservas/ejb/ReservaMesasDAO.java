@@ -35,10 +35,14 @@ public class ReservaMesasDAO {
     
     public void updateReservaMesas(ReservaMesas r){
         ReservaMesas rmesas = findById(r.getIdReserva());  
+        
         rmesas.setFecha(r.getFecha());
         rmesas.setRangoHora(r.getRangoHora());
         rmesas.setCantidadSolicitada(r.getCantidadSolicitada());
-       
+        rmesas.setIdCliente(r.getIdCliente());
+        rmesas.setIdMesa(r.getIdMesa());
+        rmesas.setIdRestaurante(r.getIdRestaurante());
+        
         em.persist(rmesas);        
     }
     
