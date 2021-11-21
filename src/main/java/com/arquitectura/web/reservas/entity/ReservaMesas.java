@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -40,25 +41,30 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ReservaMesas implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_reserva")
     private Integer idReserva;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
+    
     @Basic(optional = false)
     @NotNull
-    @Column(name = "rango_hora")
-    @Temporal(TemporalType.DATE)
-    private Date rangoHora;
+    @Size(min = 1, max = 10)
+    @Column(name = "rango_hora")    
+    private String rangoHora;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "cantidad_solicitada")
     private int cantidadSolicitada;
+    
     @JoinColumn(name = "id_cliente", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Cliente idCliente;
@@ -76,7 +82,7 @@ public class ReservaMesas implements Serializable {
         this.idReserva = idReserva;
     }
 
-    public ReservaMesas(Integer idReserva, Date fecha, Date rangoHora, int cantidadSolicitada) {
+    public ReservaMesas(Integer idReserva, Date fecha, String rangoHora, int cantidadSolicitada) {
         this.idReserva = idReserva;
         this.fecha = fecha;
         this.rangoHora = rangoHora;
@@ -99,11 +105,11 @@ public class ReservaMesas implements Serializable {
         this.fecha = fecha;
     }
 
-    public Date getRangoHora() {
+    public String getRangoHora() {
         return rangoHora;
     }
 
-    public void setRangoHora(Date rangoHora) {
+    public void setRangoHora(String rangoHora) {
         this.rangoHora = rangoHora;
     }
 
