@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.arquitectura.web.reservas.ejb;
+
+
 
 import com.arquitectura.web.reservas.entity.Mesas;
 import java.util.List;
@@ -15,13 +12,15 @@ import javax.persistence.Query;
 
 /**
  *
- * @author USUARIO
+ * @author Karen
+
  */
 @Stateless
 public class MesasDAO {
     @PersistenceContext(unitName = "hibernate_jpa_pu_reservas")
     private EntityManager em;
     
+
     public Mesas getMesaById(Integer idMesa){
         Mesas m = em.find(Mesas.class, idMesa);
         if(m == null)
