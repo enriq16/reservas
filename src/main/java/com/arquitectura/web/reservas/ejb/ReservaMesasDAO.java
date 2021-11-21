@@ -24,7 +24,7 @@ public class ReservaMesasDAO {
     public ReservaMesas findById(Integer id_reserva){
         ReservaMesas r = em.find(ReservaMesas.class, id_reserva);
         if(r == null)
-            throw new EntityNotFoundException("No existe Reserva de Mesa con ID: "+id);
+            throw new EntityNotFoundException("No existe Reserva de Mesa con ID: "+id_reserva);
         
         return r;
     }
@@ -34,7 +34,7 @@ public class ReservaMesasDAO {
     }
     
     public void updateReservaMesas(ReservaMesas r){
-        ReservaMesas rmesas = findById(r.getId_reserva());  
+        ReservaMesas rmesas = findById(r.getIdReserva());  
         rmesas.setFecha(r.getFecha());
         rmesas.setRangoHora(r.getRangoHora());
         rmesas.setCantidadSolicitada(r.getCantidadSolicitada());
@@ -43,7 +43,7 @@ public class ReservaMesasDAO {
     }
     
     public void deleteReservaMesas(ReservaMesas r){
-        ReservaMesas rmesas = findById(r.getId_reserva());        
+        ReservaMesas rmesas = findById(r.getIdReserva());        
         em.remove(rmesas); 
     }
     
@@ -51,5 +51,5 @@ public class ReservaMesasDAO {
         Query q = em.createQuery("select r from ReservaMesas r");
         return (List<ReservaMesas>) q.getResultList();        
     }
-}
+
 }

@@ -181,7 +181,9 @@ public class Mesas implements Serializable {
 
     @Override
     public String toString() {
-        return "com.arquitectura.web.reservas.entity.Mesas[ id=" + id + " ]";
+        return "Mesas{" + "id=" + id + ", nombreMesa=" + nombreMesa + ", posicionLat=" + posicionLat + ", posicionLon=" + posicionLon + ", planta=" + planta + ", capacidad=" + capacidad + ", idRestaurante=" + idRestaurante + '}';
     }
+
+    
     
 }

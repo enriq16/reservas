@@ -39,19 +39,17 @@ public class MesaController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
+        List<Mesas> list = (List<Mesas>)request.getAttribute("list");
+                
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MesaController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MesaController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+               
+        
+        out.print(list);
+        out.flush();     
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -66,20 +64,15 @@ public class MesaController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         System.out.println("idRestString: "+request.getParameter("idRest"));
         Integer idRest = Integer.parseInt(request.getParameter("idRest"));
         System.out.println("idRest: "+idRest);
         List<Mesas> list = mesaDAO.getMesas(idRest);
         System.out.println("list: "+list);
         
-        ObjectMapper objectMapper = new ObjectMapper();                
-        String restauranteJsonString = objectMapper.writeValueAsString(list);
-        
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(restauranteJsonString);
-        out.flush();
+        request.setAttribute("list", list);
+        processRequest(request, response);
     }
 
     /**

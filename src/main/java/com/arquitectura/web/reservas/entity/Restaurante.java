@@ -136,7 +136,8 @@ public class Restaurante implements Serializable {
 
     @Override
     public String toString() {
-        return "com.arquitectura.web.reservas.entity.Restaurante[ idRestaurante=" + idRestaurante + " ]";
+        return "Restaurante{" + "idRestaurante=" + idRestaurante + ", nombre=" + nombre + ", direccion=" + direccion + '}';
     }
+    
     
 }
