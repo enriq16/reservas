@@ -38,7 +38,7 @@ public class ClienteDAO {
         Cliente c = en.find(Cliente.class, cliente.getId());
         
         
-        c.setId(cliente.getId());    
+        
         c.setCedula(cliente.getCedula());    
         c.setNombre(cliente.getNombre());
         c.setApellido(cliente.getApellido());
@@ -50,5 +50,10 @@ public class ClienteDAO {
     public List<Cliente> listar(){
         Query q = en.createQuery("select c from Cliente c");
         return (List<Cliente>) q.getResultList();
+    }
+
+    public void deleteCliente(Cliente cliente) {
+        Cliente c = en.find(Cliente.class, cliente.getId());
+        en.remove(c);
     }
 }
