@@ -52,7 +52,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Nombre</th>
-                                        <th>Dirección</th>                                        
+                                        <th>Dirección</th>   
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
