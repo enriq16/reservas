@@ -2,7 +2,7 @@ package com.arquitectura.web.reservas.ejb;
 
 
 
-import com.arquitectura.web.reservas.entity.Mesas;
+import com.arquitectura.web.reservas.entity.Mesa;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -21,39 +21,47 @@ public class MesasDAO {
     private EntityManager em;
     
 
-    public Mesas getMesaById(Integer idMesa){
-        Mesas m = em.find(Mesas.class, idMesa);
+    public Mesa getMesaById(Integer idMesa){
+        Mesa m = em.find(Mesa.class, idMesa);
         if(m == null)
             throw new EntityNotFoundException("No existe mesa con id: "+idMesa);
         
         return m;
     }
     
-    public void crearRest(Mesas m){        
-        em.persist(m);        
+    public void crearRest(Mesa m){        
+        em.persist(m);   
+        em.flush();
     }
     
-    public void updateRest(Mesas m){        
-        Mesas rest = getMesaById(m.getId());  
+    public void updateRest(Mesa m){        
+        Mesa rest = getMesaById(m.getId());  
                 
         rest.setNombreMesa(m.getNombreMesa());
         rest.setPosicionLat(m.getPosicionLat());
         rest.setPosicionLon(m.getPosicionLon());
         rest.setPlanta(m.getPlanta());
         rest.setCapacidad(m.getCapacidad());
-        rest.setIdRestaurante(m.getIdRestaurante());
+        rest.setRestaurante(m.getRestaurante());
         
-        em.persist(rest);        
+        em.flush();
     }
     
-    public void deleteRest(Mesas m){
-        Mesas rest = getMesaById(m.getId());        
+    public void deleteRest(Mesa m){
+        Mesa rest = getMesaById(m.getId());        
         em.remove(rest); 
+        em.flush();
     }
     
-    public List<Mesas> getMesas(Integer idRestorante){
-        Query q = em.createQuery("select m from Mesas m where m.idRestaurante.idRestaurante = :idRest");
-        q.setParameter("idRest", idRestorante);
-        return (List<Mesas>) q.getResultList();        
+    public List<Mesa> getMesas(Integer idRestorante){
+        Query q;
+        if(idRestorante != null){
+            q = em.createQuery("select m from Mesa m where m.restaurante.idRestaurante = :idRest order by m.id");
+            q.setParameter("idRest", idRestorante);
+        }else{
+            q = em.createQuery("select m from Mesa m order by m.restaurante.idRestaurante");
+        }
+        
+        return (List<Mesa>) q.getResultList();        
     }
 }

@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author USUARIO
  */
-@Entity
+@Entity(name = "Cliente")
 @Table(name = "cliente")
 @XmlRootElement
 @NamedQueries({
@@ -59,8 +59,8 @@ public class Cliente implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "apellido")
     private String apellido;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente", fetch = FetchType.EAGER)
-    private List<ReservaMesas> reservaMesasList;
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
+    private List<ReservaMesa> reservaMesaList;
 
     public Cliente() {
     }
@@ -109,12 +109,12 @@ public class Cliente implements Serializable {
     }
 
     @XmlTransient
-    public List<ReservaMesas> getReservaMesasList() {
-        return reservaMesasList;
+    public List<ReservaMesa> getReservaMesaList() {
+        return reservaMesaList;
     }
 
-    public void setReservaMesasList(List<ReservaMesas> reservaMesasList) {
-        this.reservaMesasList = reservaMesasList;
+    public void setReservaMesaList(List<ReservaMesa> reservaMesaList) {
+        this.reservaMesaList = reservaMesaList;
     }
 
     @Override

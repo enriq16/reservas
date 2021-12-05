@@ -6,7 +6,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -36,15 +35,12 @@ public class ClienteDAO {
     
     public void update(Cliente cliente){
         Cliente c = en.find(Cliente.class, cliente.getId());
-        
-        
-        
+                        
         c.setCedula(cliente.getCedula());    
         c.setNombre(cliente.getNombre());
         c.setApellido(cliente.getApellido());
         
-        en.persist(c);
-                      
+        en.flush();                      
     }
 
     public List<Cliente> listar(){

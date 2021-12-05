@@ -29,16 +29,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author USUARIO
  */
-@Entity
+@Entity(name = "ReservaMesa")
 @Table(name = "reserva_mesas")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ReservaMesas.findAll", query = "SELECT r FROM ReservaMesas r"),
-    @NamedQuery(name = "ReservaMesas.findByIdReserva", query = "SELECT r FROM ReservaMesas r WHERE r.idReserva = :idReserva"),
-    @NamedQuery(name = "ReservaMesas.findByFecha", query = "SELECT r FROM ReservaMesas r WHERE r.fecha = :fecha"),
-    @NamedQuery(name = "ReservaMesas.findByRangoHora", query = "SELECT r FROM ReservaMesas r WHERE r.rangoHora = :rangoHora"),
-    @NamedQuery(name = "ReservaMesas.findByCantidadSolicitada", query = "SELECT r FROM ReservaMesas r WHERE r.cantidadSolicitada = :cantidadSolicitada")})
-public class ReservaMesas implements Serializable {
+    @NamedQuery(name = "ReservaMesa.findAll", query = "SELECT r FROM ReservaMesa r"),
+    @NamedQuery(name = "ReservaMesa.findByIdReserva", query = "SELECT r FROM ReservaMesa r WHERE r.idReserva = :idReserva"),
+    @NamedQuery(name = "ReservaMesa.findByFecha", query = "SELECT r FROM ReservaMesa r WHERE r.fecha = :fecha"),
+    @NamedQuery(name = "ReservaMesa.findByRangoHora", query = "SELECT r FROM ReservaMesa r WHERE r.rangoHora = :rangoHora"),
+    @NamedQuery(name = "ReservaMesa.findByCantidadSolicitada", query = "SELECT r FROM ReservaMesa r WHERE r.cantidadSolicitada = :cantidadSolicitada")})
+public class ReservaMesa implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -67,22 +67,22 @@ public class ReservaMesas implements Serializable {
     
     @JoinColumn(name = "id_cliente", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Cliente idCliente;
+    private Cliente cliente;
     @JoinColumn(name = "id_mesa", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Mesas idMesa;
+    private Mesa mesa;
     @JoinColumn(name = "id_restaurante", referencedColumnName = "id_restaurante")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Restaurante idRestaurante;
+    private Restaurante restaurante;
 
-    public ReservaMesas() {
+    public ReservaMesa() {
     }
 
-    public ReservaMesas(Integer idReserva) {
+    public ReservaMesa(Integer idReserva) {
         this.idReserva = idReserva;
     }
 
-    public ReservaMesas(Integer idReserva, Date fecha, String rangoHora, int cantidadSolicitada) {
+    public ReservaMesa(Integer idReserva, Date fecha, String rangoHora, int cantidadSolicitada) {
         this.idReserva = idReserva;
         this.fecha = fecha;
         this.rangoHora = rangoHora;
@@ -121,29 +121,29 @@ public class ReservaMesas implements Serializable {
         this.cantidadSolicitada = cantidadSolicitada;
     }
 
-    public Cliente getIdCliente() {
-        return idCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(Cliente idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public Mesas getIdMesa() {
-        return idMesa;
+    public Mesa getMesa() {
+        return mesa;
     }
 
-    public void setIdMesa(Mesas idMesa) {
-        this.idMesa = idMesa;
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
     }
 
-    public Restaurante getIdRestaurante() {
-        return idRestaurante;
+    public Restaurante getRestaurante() {
+        return restaurante;
     }
 
-    public void setIdRestaurante(Restaurante idRestaurante) {
-        this.idRestaurante = idRestaurante;
-    }
+    public void setRestaurante(Restaurante restaurante) {
+        this.restaurante = restaurante;
+    }    
 
     @Override
     public int hashCode() {
@@ -155,10 +155,10 @@ public class ReservaMesas implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ReservaMesas)) {
+        if (!(object instanceof ReservaMesa)) {
             return false;
         }
-        ReservaMesas other = (ReservaMesas) object;
+        ReservaMesa other = (ReservaMesa) object;
         if ((this.idReserva == null && other.idReserva != null) || (this.idReserva != null && !this.idReserva.equals(other.idReserva))) {
             return false;
         }

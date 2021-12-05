@@ -15,7 +15,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author USUARIO
+ * @author Enrique 
  */
 @Stateless
 public class RestauranteDAO {
@@ -31,23 +31,25 @@ public class RestauranteDAO {
     }
     
     public void crearRest(Restaurante r){        
-        em.persist(r);        
+        em.persist(r);
+        em.flush();
     }
     
     public void updateRest(Restaurante r){
         Restaurante rest = findById(r.getIdRestaurante());  
         rest.setNombre(r.getNombre());
         rest.setDireccion(r.getDireccion());
-        em.persist(rest);        
+        em.flush();
     }
     
     public void deleteRest(Restaurante r){
         Restaurante rest = findById(r.getIdRestaurante());        
         em.remove(rest); 
+        em.flush();
     }
     
     public List<Restaurante> getRestaurantes(){
-        Query q = em.createQuery("select r from Restaurante r");
+        Query q = em.createQuery("select r from Restaurante r order by r.idRestaurante");
         return (List<Restaurante>) q.getResultList();        
     }
 }

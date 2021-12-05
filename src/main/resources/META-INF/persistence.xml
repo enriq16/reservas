@@ -7,8 +7,8 @@
          can find it in the source at postgres_local-ds.xml -->
     <jta-data-source>java:jboss/datasources/reservas</jta-data-source>
     <!--<class>com.arquitectura.web.sistfcliente.entity.Cliente</class>-->
-    <class>com.arquitectura.web.reservas.entity.Mesas</class>
-    <class>com.arquitectura.web.reservas.entity.ReservaMesas</class>
+    <class>com.arquitectura.web.reservas.entity.Mesa</class>
+    <class>com.arquitectura.web.reservas.entity.ReservaMesa</class>
     <class>com.arquitectura.web.reservas.entity.Cliente</class>
     <class>com.arquitectura.web.reservas.entity.Restaurante</class>
     <properties>

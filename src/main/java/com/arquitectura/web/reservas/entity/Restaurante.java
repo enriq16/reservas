@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author USUARIO
+ * @author Enrique
  */
 @Entity
 @Table(name = "restaurante")
@@ -54,10 +54,10 @@ public class Restaurante implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "direccion")
     private String direccion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRestaurante", fetch = FetchType.EAGER)
-    private List<Mesas> mesasList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRestaurante", fetch = FetchType.EAGER)
-    private List<ReservaMesas> reservaMesasList;
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+    private List<Mesa> mesaList;
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+    private List<ReservaMesa> reservaMesaList;
 
     public Restaurante() {
     }
@@ -97,21 +97,21 @@ public class Restaurante implements Serializable {
     }
 
     @XmlTransient
-    public List<Mesas> getMesasList() {
-        return mesasList;
+    public List<Mesa> getMesaList() {
+        return mesaList;
     }
 
-    public void setMesasList(List<Mesas> mesasList) {
-        this.mesasList = mesasList;
+    public void setMesaList(List<Mesa> mesaList) {
+        this.mesaList = mesaList;
     }
 
     @XmlTransient
-    public List<ReservaMesas> getReservaMesasList() {
-        return reservaMesasList;
+    public List<ReservaMesa> getReservaMesaList() {
+        return reservaMesaList;
     }
 
-    public void setReservaMesasList(List<ReservaMesas> reservaMesasList) {
-        this.reservaMesasList = reservaMesasList;
+    public void setReservaMesasList(List<ReservaMesa> reservaMesasList) {
+        this.reservaMesaList = reservaMesasList;
     }
 
     @Override

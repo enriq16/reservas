@@ -7,6 +7,7 @@ package com.arquitectura.web.reservas.controller;
 
 import com.arquitectura.web.reservas.ejb.RestauranteDAO;
 import com.arquitectura.web.reservas.entity.Restaurante;
+import com.arquitectura.web.reservas.util.JsonResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -41,14 +42,15 @@ public class RestauranteController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Restaurante> list = (List<Restaurante>)request.getAttribute("list");
-                
+                        
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();               
         
-        out.print(list);
-        out.flush();     
+        List<Restaurante> list = restDAO.getRestaurantes();                                      
+        request.setAttribute("list", list);
+        
+        String jspContent = "/WEB-INF/interface/restaurante.jsp";
+        request.getRequestDispatcher(jspContent).forward(request, response); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -63,40 +65,70 @@ public class RestauranteController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String restauranteJsonString;
-        List<Restaurante> list = restDAO.getRestaurantes();
-                                      
-        request.setAttribute("list", list);
-        processRequest(request, response);
+        
+        String accion = request.getParameter("accion");
+        
+        if (accion != null) {
+            switch (accion) {
+                case "editar":
+                    editarCliente(request, response);
+                    break;
+                case "agregar":
+                    String jspContent = "/WEB-INF/interface/agregarEditarRestaurante.jsp";
+                    request.getRequestDispatcher(jspContent).forward(request, response); 
+                    break;
+                default:
+                    processRequest(request, response);
+            }
+        } else {
+            processRequest(request, response);
+        }
+        
+        
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
-     * @param response servlet response
+     * @param req servlet request
+     * @param resp servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String nombreRest    = request.getParameter("nombre_restaurante");
-        String direccionRest = request.getParameter("direccion");
+        JsonResponse jresp = new JsonResponse();
+        ObjectMapper objectMapper = new ObjectMapper();                
+        String restauranteJsonString;
+        
+        try{
+        //Integer id           = Integer.parseInt(req.getParameter("id"));                             
+        String nombreRest    = req.getParameter("nombre");
+        String direccionRest = req.getParameter("direccion");
         
         Restaurante r = new Restaurante();
+        
+        //r.setIdRestaurante(id);
         r.setNombre(nombreRest);
         r.setDireccion(direccionRest);
-        
+                                
         restDAO.crearRest(r);
+        jresp.setStatus("exito");
+        jresp.setMensaje("Restaurante con Id: "+r.getIdRestaurante()+" Creado.");
+        jresp.setError("");
         
-        ObjectMapper objectMapper = new ObjectMapper();
-                
-        String restauranteJsonString = objectMapper.writeValueAsString(r);
         
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+        }catch(Exception e){
+            jresp.setStatus("noexito");
+            jresp.setMensaje("");
+            jresp.setError(e.getMessage());
+        }        
+        
+        restauranteJsonString = objectMapper.writeValueAsString(jresp);        
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
         out.print(restauranteJsonString);
         out.flush();        
     }
@@ -120,20 +152,34 @@ public class RestauranteController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer id           = Integer.parseInt(req.getParameter("id"));
-        String nombreRest    = req.getParameter("nombre_restaurante");
+        JsonResponse jresp = new JsonResponse();
+        ObjectMapper objectMapper = new ObjectMapper();                
+        String restauranteJsonString;
+        
+        try{
+        Integer id           = Integer.parseInt(req.getParameter("id"));                             
+        String nombreRest    = req.getParameter("nombre");
         String direccionRest = req.getParameter("direccion");
         
         Restaurante r = new Restaurante();
+        
         r.setIdRestaurante(id);
         r.setNombre(nombreRest);
         r.setDireccion(direccionRest);
-        
+                                
         restDAO.updateRest(r);
+        jresp.setStatus("exito");
+        jresp.setMensaje("Restaurante con Id: "+id+" Actualizado.");
+        jresp.setError("");
         
-        ObjectMapper objectMapper = new ObjectMapper();                
-        String restauranteJsonString = objectMapper.writeValueAsString(r);
         
+        }catch(Exception e){
+            jresp.setStatus("noexito");
+            jresp.setMensaje("");
+            jresp.setError(e.getMessage());
+        }        
+        
+        restauranteJsonString = objectMapper.writeValueAsString(jresp);        
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
@@ -151,5 +197,13 @@ public class RestauranteController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void editarCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        Restaurante r = restDAO.findById(id);
+        request.setAttribute("cc", r);
+        String jspContent = "/WEB-INF/interface/agregarEditarRestaurante.jsp";
+        request.getRequestDispatcher(jspContent).forward(request, response); 
+    }
 
 }

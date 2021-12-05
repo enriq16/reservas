@@ -9,7 +9,7 @@ import com.arquitectura.web.reservas.ejb.ClienteDAO;
 import com.arquitectura.web.reservas.ejb.MesasDAO;
 import com.arquitectura.web.reservas.ejb.RestauranteDAO;
 import com.arquitectura.web.reservas.entity.Cliente;
-import com.arquitectura.web.reservas.entity.Mesas;
+import com.arquitectura.web.reservas.entity.Mesa;
 import com.arquitectura.web.reservas.entity.Restaurante;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -96,7 +96,7 @@ public class ReservaMesasController extends HttpServlet {
         Cliente c = clienteDAO.findById(idCliente);
         
         Integer idMesa = Integer.parseInt(request.getParameter("idMesa"));
-        Mesas m = mesaDAO.getMesaById(idMesa);
+        Mesa m = mesaDAO.getMesaById(idMesa);
         
         Integer idRestaurante = Integer.parseInt(request.getParameter("idRestaurante"));
         Restaurante rest = restDAO.findById(idRestaurante);

@@ -2,12 +2,11 @@
 
 package com.arquitectura.web.reservas.ejb;
 
-import com.arquitectura.web.reservas.entity.ReservaMesas;
+import com.arquitectura.web.reservas.entity.ReservaMesa;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -21,39 +20,40 @@ public class ReservaMesasDAO {
     @PersistenceContext(unitName = "hibernate_jpa_pu_reservas")
     private EntityManager em;
     
-    public ReservaMesas findById(Integer id_reserva){
-        ReservaMesas r = em.find(ReservaMesas.class, id_reserva);
+    public ReservaMesa findById(Integer id_reserva){
+        ReservaMesa r = em.find(ReservaMesa.class, id_reserva);
         if(r == null)
             throw new EntityNotFoundException("No existe Reserva de Mesa con ID: "+id_reserva);
         
         return r;
     }
     
-    public void crearReservaMesas(ReservaMesas r){        
-        em.persist(r);        
+    public void crearReservaMesas(ReservaMesa r){        
+        em.persist(r);
+        em.flush();
     }
     
-    public void updateReservaMesas(ReservaMesas r){
-        ReservaMesas rmesas = findById(r.getIdReserva());  
+    public void updateReservaMesas(ReservaMesa r){
+        ReservaMesa rmesas = findById(r.getIdReserva());  
         
         rmesas.setFecha(r.getFecha());
         rmesas.setRangoHora(r.getRangoHora());
         rmesas.setCantidadSolicitada(r.getCantidadSolicitada());
-        rmesas.setIdCliente(r.getIdCliente());
-        rmesas.setIdMesa(r.getIdMesa());
-        rmesas.setIdRestaurante(r.getIdRestaurante());
+        rmesas.setCliente(r.getCliente());
+        rmesas.setMesa(r.getMesa());
         
         em.persist(rmesas);        
     }
     
-    public void deleteReservaMesas(ReservaMesas r){
-        ReservaMesas rmesas = findById(r.getIdReserva());        
+    public void deleteReservaMesas(ReservaMesa r){
+        ReservaMesa rmesas = findById(r.getIdReserva());        
         em.remove(rmesas); 
+        em.flush();
     }
     
-    public List<ReservaMesas> getReservaMesas(){
+    public List<ReservaMesa> getReservaMesas(){
         Query q = em.createQuery("select r from ReservaMesas r");
-        return (List<ReservaMesas>) q.getResultList();        
+        return (List<ReservaMesa>) q.getResultList();        
     }
 
 }

@@ -31,18 +31,18 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author USUARIO
  */
-@Entity
+@Entity(name = "Mesa")
 @Table(name = "mesas")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Mesas.findAll", query = "SELECT m FROM Mesas m"),
-    @NamedQuery(name = "Mesas.findById", query = "SELECT m FROM Mesas m WHERE m.id = :id"),
-    @NamedQuery(name = "Mesas.findByNombreMesa", query = "SELECT m FROM Mesas m WHERE m.nombreMesa = :nombreMesa"),
-    @NamedQuery(name = "Mesas.findByPosicionLat", query = "SELECT m FROM Mesas m WHERE m.posicionLat = :posicionLat"),
-    @NamedQuery(name = "Mesas.findByPosicionLon", query = "SELECT m FROM Mesas m WHERE m.posicionLon = :posicionLon"),
-    @NamedQuery(name = "Mesas.findByPlanta", query = "SELECT m FROM Mesas m WHERE m.planta = :planta"),
-    @NamedQuery(name = "Mesas.findByCapacidad", query = "SELECT m FROM Mesas m WHERE m.capacidad = :capacidad")})
-public class Mesas implements Serializable {
+    @NamedQuery(name = "Mesa.findAll", query = "SELECT m FROM Mesa m"),
+    @NamedQuery(name = "Mesa.findById", query = "SELECT m FROM Mesa m WHERE m.id = :id"),
+    @NamedQuery(name = "Mesa.findByNombreMesa", query = "SELECT m FROM Mesa m WHERE m.nombreMesa = :nombreMesa"),
+    @NamedQuery(name = "Mesa.findByPosicionLat", query = "SELECT m FROM Mesa m WHERE m.posicionLat = :posicionLat"),
+    @NamedQuery(name = "Mesa.findByPosicionLon", query = "SELECT m FROM Mesa m WHERE m.posicionLon = :posicionLon"),
+    @NamedQuery(name = "Mesa.findByPlanta", query = "SELECT m FROM Mesa m WHERE m.planta = :planta"),
+    @NamedQuery(name = "Mesa.findByCapacidad", query = "SELECT m FROM Mesa m WHERE m.capacidad = :capacidad")})
+public class Mesa implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -74,18 +74,18 @@ public class Mesas implements Serializable {
     private int capacidad;
     @JoinColumn(name = "id_restaurante", referencedColumnName = "id_restaurante")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Restaurante idRestaurante;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMesa", fetch = FetchType.EAGER)
-    private List<ReservaMesas> reservaMesasList;
+    private Restaurante restaurante;
+    @OneToMany(mappedBy = "mesa", fetch = FetchType.EAGER)
+    private List<ReservaMesa> reservaMesaList;
 
-    public Mesas() {
+    public Mesa() {
     }
 
-    public Mesas(Integer id) {
+    public Mesa(Integer id) {
         this.id = id;
     }
 
-    public Mesas(Integer id, String nombreMesa, BigDecimal posicionLat, BigDecimal posicionLon, int planta, int capacidad) {
+    public Mesa(Integer id, String nombreMesa, BigDecimal posicionLat, BigDecimal posicionLon, int planta, int capacidad) {
         this.id = id;
         this.nombreMesa = nombreMesa;
         this.posicionLat = posicionLat;
@@ -142,21 +142,21 @@ public class Mesas implements Serializable {
         this.capacidad = capacidad;
     }
 
-    public Restaurante getIdRestaurante() {
-        return idRestaurante;
+    public Restaurante getRestaurante() {
+        return restaurante;
     }
 
-    public void setIdRestaurante(Restaurante idRestaurante) {
-        this.idRestaurante = idRestaurante;
+    public void setRestaurante(Restaurante restaurante) {
+        this.restaurante = restaurante;
     }
 
     @XmlTransient
-    public List<ReservaMesas> getReservaMesasList() {
-        return reservaMesasList;
+    public List<ReservaMesa> getReservaMesaList() {
+        return reservaMesaList;
     }
 
-    public void setReservaMesasList(List<ReservaMesas> reservaMesasList) {
-        this.reservaMesasList = reservaMesasList;
+    public void setReservaMesasList(List<ReservaMesa> reservaMesaList) {
+        this.reservaMesaList = reservaMesaList;
     }
 
     @Override
@@ -169,10 +169,10 @@ public class Mesas implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Mesas)) {
+        if (!(object instanceof Mesa)) {
             return false;
         }
-        Mesas other = (Mesas) object;
+        Mesa other = (Mesa) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -181,7 +181,7 @@ public class Mesas implements Serializable {
 
     @Override
     public String toString() {
-        return "Mesas{" + "id=" + id + ", nombreMesa=" + nombreMesa + ", posicionLat=" + posicionLat + ", posicionLon=" + posicionLon + ", planta=" + planta + ", capacidad=" + capacidad + ", idRestaurante=" + idRestaurante + '}';
+        return "Mesas{"+"id=" + id + ", nombreMesa=" + nombreMesa + ", posicionLat=" + posicionLat + ", posicionLon=" + posicionLon + ", planta=" + planta + ", capacidad=" + capacidad + ", restaurante=" + restaurante + '}';
     }
 
     
